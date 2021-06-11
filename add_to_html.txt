@@ -1,0 +1,2 @@
+	<h1 style="color: white; font-size: 500%;">12React</h1>
+	<h3 style="color: white; font-size: 200%;">Sharper, Faster, Smarter</h1>
