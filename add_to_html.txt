@@ -1,2 +1,35 @@
-	<h1 style="color: white; font-size: 500%;">12React</h1>
-	<h3 style="color: white; font-size: 200%;">Sharper, Faster, Smarter</h1>
+
+		#logo {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 20%;
+		}
+
+		#loading {
+			position: absolute;
+			left: 0;
+			top: 20%;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			/* don't consume click events - make children visible explicitly */
+		}
+
+		#status-progress-inner {
+			height: 100%;
+			width: 0;
+			box-sizing: border-box;
+			transition: width 0.5s linear;
+			background-color: #f8e800;
+			border: 1px solid #cca700;
+			box-shadow: 0 0 1px 1px #27282E;
+			border-radius: 3px;
+		}
+
+
+	<img id="logo" src="panther.png">
+	<br>
+	<span id="loading" style="color: white; font-size: 300%;">Loading..</span>

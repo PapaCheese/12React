@@ -52,6 +52,25 @@
 			visibility: hidden;
 		}
 
+		#logo {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 20%;
+		}
+
+		#loading {
+			position: absolute;
+			left: 0;
+			top: 20%;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			/* don't consume click events - make children visible explicitly */
+		}
+
 		#status-progress {
 			width: 366px;
 			height: 7px;
@@ -74,8 +93,8 @@
 			width: 0;
 			box-sizing: border-box;
 			transition: width 0.5s linear;
-			background-color: #e9da03;
-			border: 1px solid #948502;
+			background-color: #f8e800;
+			border: 1px solid #cca700;
 			box-shadow: 0 0 1px 1px #27282E;
 			border-radius: 3px;
 		}
@@ -119,12 +138,10 @@
 		HTML5 canvas appears to be unsupported in the current browser.<br />
 		Please try updating or use a different browser.
 	</canvas>
-	<img src="panther.png" width="10%"/>
+	<img id="logo" src="panther.png">
 	<br>
+	<span id="loading" style="color: white; font-size: 300%;">Loading..</span>
 
-	<span style="color: white; font-size: 450%; font-weight: 800;">12React</span>
-	<br>
-	<span style="color: white; font-size: 400%;">Loading..</span>
 	<div id='status'>
 		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
 		<div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
@@ -143,7 +160,7 @@
 	<script type='text/javascript' src='index.js'></script>
 	<script type='text/javascript'>//<![CDATA[
 
-		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":2864176,"index.wasm":12660493},"gdnativeLibs":[]};
+		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":4671808,"index.wasm":12660493},"gdnativeLibs":[]};
 		var engine = new Engine(GODOT_CONFIG);
 
 		(function() {
