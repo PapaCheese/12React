@@ -8,7 +8,7 @@
 	<title>12React</title>
 	<style type='text/css'>
 		body {
-			font-family: Tahoma,Verdana,Segoe,sans-serif; 
+			font-family: Tahoma, Verdana, Segoe, sans-serif;
 			touch-action: none;
 			margin: 0;
 			border: 0 none;
@@ -63,15 +63,16 @@
 		#status-loading {
 			position: absolute;
 			left: 0;
-			top: 20%;
 			right: 0;
-			bottom: 0;
+			bottom: 15%;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 		}
 
 		#status-progress {
+			position: absolute;
+			bottom: 10%;
 			width: 366px;
 			height: 7px;
 			background-color: #38363A;
@@ -162,7 +163,12 @@
 		HTML5 canvas appears to be unsupported in the current browser.<br />
 		Please try updating or use a different browser.
 	</canvas>
-	<img id="status-logo" src="1p.gif" alt="12REACT">
+	<video id="status-splash" autoplay muted loop id="myVideo">
+		<source src="splash.mp4" type="video/mp4">
+		<img id="status-logo" src="1p.gif" alt="12REACT">
+	</video>
+
+
 	<br>
 	<span id="status-loading" style="color: white; font-size: 300%;">Loading..</span>
 
@@ -192,6 +198,7 @@
 		(function () {
 			const INDETERMINATE_STATUS_STEP_MS = 100;
 			var statusLogo = document.getElementById('status-logo');
+			var statusSplash = document.getElementById('status-splash');
 			var statusLoading = document.getElementById('status-loading');
 			var statusProgress = document.getElementById('status-progress');
 			var statusProgressInner = document.getElementById('status-progress-inner');
@@ -212,7 +219,7 @@
 
 				if (statusMode === mode || !initializing)
 					return;
-				[statusProgress, statusIndeterminate, statusNotice, statusLogo, statusLoading].forEach(elem => {
+				[statusProgress, statusIndeterminate, statusNotice, statusLogo, statusLoading, statusSplash].forEach(elem => {
 					elem.style.display = 'none';
 				});
 				animationCallbacks = animationCallbacks.filter(function (value) {
@@ -223,6 +230,7 @@
 						statusProgress.style.display = 'block';
 						statusLogo.style.display = 'block';
 						statusLoading.style.display = 'flex';
+						statusSplash.style.display = 'inline';
 						break;
 					case 'indeterminate':
 						statusIndeterminate.style.display = 'block';
