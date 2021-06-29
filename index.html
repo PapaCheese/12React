@@ -65,7 +65,7 @@
 			width: 50%;
 		}
 
-		#status-loading {
+		/* #status-loading {
 			position: absolute;
 			left: 0;
 			right: 0;
@@ -73,7 +73,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-		}
+		} */
 
 		#status-progress {
 			position: absolute;
@@ -178,8 +178,8 @@
 	</video>
 
 
-	<br>
-	<span id="status-loading" style="color: white; font-size: 300%;">Loading..</span>
+	<!-- <br> -->
+	<!-- <span id="status-loading" style="color: white; font-size: 300%;">Loading..</span> -->
 
 	<div id='status'>
 		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'>
@@ -208,7 +208,7 @@
 			const INDETERMINATE_STATUS_STEP_MS = 100;
 			var statusLogo = document.getElementById('status-logo');
 			var statusSplash = document.getElementById('status-splash');
-			var statusLoading = document.getElementById('status-loading');
+			// var statusLoading = document.getElementById('status-loading');
 			var statusProgress = document.getElementById('status-progress');
 			var statusProgressInner = document.getElementById('status-progress-inner');
 			var statusIndeterminate = document.getElementById('status-indeterminate');
@@ -228,7 +228,7 @@
 
 				if (statusMode === mode || !initializing)
 					return;
-				[statusProgress, statusIndeterminate, statusNotice, statusLogo, statusLoading, statusSplash].forEach(elem => {
+				[statusProgress, statusIndeterminate, statusNotice, statusLogo, statusSplash].forEach(elem => {
 					elem.style.display = 'none';
 				});
 				animationCallbacks = animationCallbacks.filter(function (value) {
@@ -238,7 +238,6 @@
 					case 'progress':
 						statusProgress.style.display = 'block';
 						statusLogo.style.display = 'block';
-						statusLoading.style.display = 'flex';
 						statusSplash.style.display = 'inline';
 						break;
 					case 'indeterminate':
