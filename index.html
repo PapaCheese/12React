@@ -193,7 +193,7 @@
 		(function () {
 			const INDETERMINATE_STATUS_STEP_MS = 100;
 			var statusLogo = document.getElementById('status-logo');
-			var statusSplash = document.getElementById('status-splash');
+			// var statusSplash = document.getElementById('status-splash');
 			// var statusLoading = document.getElementById('status-loading');
 			var statusProgress = document.getElementById('status-progress');
 			var statusProgressInner = document.getElementById('status-progress-inner');
@@ -214,7 +214,7 @@
 
 				if (statusMode === mode || !initializing)
 					return;
-				[statusProgress, statusIndeterminate, statusNotice, statusLogo, statusSplash].forEach(elem => {
+				[statusProgress, statusIndeterminate, statusNotice, statusLogo].forEach(elem => {
 					elem.style.display = 'none';
 				});
 				animationCallbacks = animationCallbacks.filter(function (value) {
