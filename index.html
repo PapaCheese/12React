@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
+
 <head>
 	<meta charset='utf-8' />
 	<meta name='viewport' content='width=device-width, user-scalable=no' />
 	<link id='-gd-engine-icon' rel='icon' type='image/png' href='favicon.png' />
 	<title>12React</title>
 	<style type='text/css'>
-
 		body {
+			font-family: Tahoma, Verdana, Segoe, sans-serif;
 			touch-action: none;
 			margin: 0;
 			border: 0 none;
@@ -52,7 +53,21 @@
 			visibility: hidden;
 		}
 
+
+		#status-splash {
+			margin: 0 auto;
+		}
+
+		#status-logo {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 50%;
+		}
+
 		#status-progress {
+			position: absolute;
+			bottom: 10%;
 			width: 366px;
 			height: 7px;
 			background-color: #38363A;
@@ -74,8 +89,8 @@
 			width: 0;
 			box-sizing: border-box;
 			transition: width 0.5s linear;
-			background-color: #202020;
-			border: 1px solid #222223;
+			background-color: #f8e800;
+			border: 1px solid #cca700;
 			box-shadow: 0 0 1px 1px #27282E;
 			border-radius: 3px;
 		}
@@ -85,7 +100,7 @@
 			position: relative;
 		}
 
-		#status-indeterminate > div {
+		#status-indeterminate>div {
 			width: 4.5px;
 			height: 0;
 			border-style: solid;
@@ -95,14 +110,37 @@
 			position: absolute;
 		}
 
-		#status-indeterminate > div:nth-child(1) { transform: rotate( 22.5deg); }
-		#status-indeterminate > div:nth-child(2) { transform: rotate( 67.5deg); }
-		#status-indeterminate > div:nth-child(3) { transform: rotate(112.5deg); }
-		#status-indeterminate > div:nth-child(4) { transform: rotate(157.5deg); }
-		#status-indeterminate > div:nth-child(5) { transform: rotate(202.5deg); }
-		#status-indeterminate > div:nth-child(6) { transform: rotate(247.5deg); }
-		#status-indeterminate > div:nth-child(7) { transform: rotate(292.5deg); }
-		#status-indeterminate > div:nth-child(8) { transform: rotate(337.5deg); }
+		#status-indeterminate>div:nth-child(1) {
+			transform: rotate(22.5deg);
+		}
+
+		#status-indeterminate>div:nth-child(2) {
+			transform: rotate(67.5deg);
+		}
+
+		#status-indeterminate>div:nth-child(3) {
+			transform: rotate(112.5deg);
+		}
+
+		#status-indeterminate>div:nth-child(4) {
+			transform: rotate(157.5deg);
+		}
+
+		#status-indeterminate>div:nth-child(5) {
+			transform: rotate(202.5deg);
+		}
+
+		#status-indeterminate>div:nth-child(6) {
+			transform: rotate(247.5deg);
+		}
+
+		#status-indeterminate>div:nth-child(7) {
+			transform: rotate(292.5deg);
+		}
+
+		#status-indeterminate>div:nth-child(8) {
+			transform: rotate(337.5deg);
+		}
 
 		#status-notice {
 			margin: 0 100px;
@@ -114,13 +152,25 @@
 	</style>
 
 </head>
+
 <body>
 	<canvas id='canvas'>
 		HTML5 canvas appears to be unsupported in the current browser.<br />
 		Please try updating or use a different browser.
 	</canvas>
+	<!-- <audio id="status-splash" autoplay>
+		<source src="splash.mp3" type="audio/mpeg">
+	</audio> -->
+
+	<!-- <video id="status-splash" autoplay muted loop id="myVideo">
+		<source src="splash.mp4" type="video/mp4"> -->
+	<img id="status-logo" src="panther.gif" alt="12REACT">
+	<!-- </video> -->
+
 	<div id='status'>
-		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
+		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'>
+			<div id='status-progress-inner'></div>
+		</div>
 		<div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
 			<div></div>
 			<div></div>
@@ -137,17 +187,14 @@
 	<script type='text/javascript' src='index.js'></script>
 	<script type='text/javascript'>//<![CDATA[
 
-		var engine = new Engine;
-		var setStatusMode;
-		var setStatusNotice;
+		const GODOT_CONFIG = { "args": [], "canvasResizePolicy": 2, "executable": "index", "experimentalVK": true, "fileSizes": { "index.pck": 4671808, "index.wasm": 12660493 }, "gdnativeLibs": [] };
+		var engine = new Engine(GODOT_CONFIG);
 
-		(function() {
-
-			const EXECUTABLE_NAME = 'index';
-			const MAIN_PACK = 'index.pck';
+		(function () {
 			const INDETERMINATE_STATUS_STEP_MS = 100;
-
-			var canvas = document.getElementById('canvas');
+			var statusLogo = document.getElementById('status-logo');
+			// var statusSplash = document.getElementById('status-splash');
+			// var statusLoading = document.getElementById('status-loading');
 			var statusProgress = document.getElementById('status-progress');
 			var statusProgressInner = document.getElementById('status-progress-inner');
 			var statusIndeterminate = document.getElementById('status-indeterminate');
@@ -163,31 +210,20 @@
 			}
 			requestAnimationFrame(animate);
 
-			function adjustCanvasDimensions() {
-				var scale = window.devicePixelRatio || 1;
-				var width = window.innerWidth;
-				var height = window.innerHeight;
-				canvas.width = width * scale;
-				canvas.height = height * scale;
-				canvas.style.width = width + "px";
-				canvas.style.height = height + "px";
-			}
-			animationCallbacks.push(adjustCanvasDimensions);
-			adjustCanvasDimensions();
-
-			setStatusMode = function setStatusMode(mode) {
+			function setStatusMode(mode) {
 
 				if (statusMode === mode || !initializing)
 					return;
-				[statusProgress, statusIndeterminate, statusNotice].forEach(elem => {
+				[statusProgress, statusIndeterminate, statusNotice, statusLogo].forEach(elem => {
 					elem.style.display = 'none';
 				});
-				animationCallbacks = animationCallbacks.filter(function(value) {
+				animationCallbacks = animationCallbacks.filter(function (value) {
 					return (value != animateStatusIndeterminate);
 				});
 				switch (mode) {
 					case 'progress':
 						statusProgress.style.display = 'block';
+						statusLogo.style.display = 'block';
 						break;
 					case 'indeterminate':
 						statusIndeterminate.style.display = 'block';
@@ -205,7 +241,6 @@
 			}
 
 			function animateStatusIndeterminate(ms) {
-
 				var i = Math.floor(ms / INDETERMINATE_STATUS_STEP_MS % 8);
 				if (statusIndeterminate.children[i].style.borderTopColor == '') {
 					Array.prototype.slice.call(statusIndeterminate.children).forEach(child => {
@@ -215,8 +250,7 @@
 				}
 			}
 
-			setStatusNotice = function setStatusNotice(text) {
-
+			function setStatusNotice(text) {
 				while (statusNotice.lastChild) {
 					statusNotice.removeChild(statusNotice.lastChild);
 				}
@@ -226,22 +260,6 @@
 					statusNotice.appendChild(document.createElement('br'));
 				});
 			};
-
-			engine.setProgressFunc((current, total) => {
-
-				if (total > 0) {
-					statusProgressInner.style.width = current/total * 100 + '%';
-					setStatusMode('progress');
-					if (current === total) {
-						// wait for progress bar animation
-						setTimeout(() => {
-							setStatusMode('indeterminate');
-						}, 500);
-					}
-				} else {
-					setStatusMode('indeterminate');
-				}
-			});
 
 			function displayFailureNotice(err) {
 				var msg = err.message || err;
@@ -255,8 +273,22 @@
 				displayFailureNotice('WebGL not available');
 			} else {
 				setStatusMode('indeterminate');
-				engine.setCanvas(canvas);
-				engine.startGame(EXECUTABLE_NAME, MAIN_PACK).then(() => {
+				engine.startGame({
+					'onProgress': function (current, total) {
+						if (total > 0) {
+							statusProgressInner.style.width = current / total * 100 + '%';
+							setStatusMode('progress');
+							if (current === total) {
+								// wait for progress bar animation
+								setTimeout(() => {
+									setStatusMode('indeterminate');
+								}, 500);
+							}
+						} else {
+							setStatusMode('indeterminate');
+						}
+					},
+				}).then(() => {
 					setStatusMode('hidden');
 					initializing = false;
 				}, displayFailureNotice);
@@ -264,5 +296,5 @@
 		})();
 	//]]></script>
 </body>
-</html>
 
+</html>
